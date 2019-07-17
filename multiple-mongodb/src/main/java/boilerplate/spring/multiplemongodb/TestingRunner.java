@@ -18,8 +18,5 @@ public class TestingRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         /* Running test code at here. */
-
-        System.out.println(personRepository.findFirst().orElseThrow(Exception::new));
-        System.out.println(itemRepository.findFirst().orElseThrow(Exception::new));
     }
 }
