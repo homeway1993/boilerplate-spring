@@ -17,6 +17,6 @@ public class TestingRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /* Running test code at here. */
+        /* Writing test code at here. */
     }
 }
