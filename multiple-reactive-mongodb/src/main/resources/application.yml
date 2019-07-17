@@ -1,0 +1,14 @@
+spring:
+  autoconfigure:
+    ## disable the Spring Boot auto-configuration to avoid create redundant MongodbClient
+    exclude: org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+  data:
+    mongodb:
+      primary:
+        uri: mongodb://localhost:27017/primary
+      secondary:
+        uri: mongodb://localhost:27017/secondary
+
+logging.level:
+  org.springframework.data.mongodb.core.ReactiveMongoTemplate: DEBUG
+  org.springframework.data.mongodb.core.MongoTemplate: DEBUG
