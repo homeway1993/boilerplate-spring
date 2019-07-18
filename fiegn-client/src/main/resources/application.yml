@@ -1,0 +1,27 @@
+proxy:
+  host: 192.168.201.201
+  port: 3128
+
+ec-pay:
+  base-url: https://payment-stage.ecpay.com.tw
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+  instance:
+    lease-expiration-duration-in-seconds: 10
+    lease-renewal-interval-in-seconds: 5
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: FULL
+        readTimeout: 60000
+        connectTimeout: 60000
+
+logging.level:
+  boilerplate.spring.client: DEBUG
