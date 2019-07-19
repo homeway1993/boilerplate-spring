@@ -1,7 +1,7 @@
-package boilerplate.spring.repository;
+package boilerplate.spring.reactivemongodb.repository;
 
 
-import boilerplate.spring.entity.Person;
+import boilerplate.spring.reactivemongodb.entity.Person;
 import reactor.core.publisher.Mono;
 
 public interface PersonRepositoryCustom {

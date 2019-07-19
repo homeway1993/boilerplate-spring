@@ -1,4 +1,4 @@
-package boilerplate.spring.client;
+package boilerplate.spring.feignclient.client;
 
 import feign.Client;
 import feign.httpclient.ApacheHttpClient;

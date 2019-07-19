@@ -1,4 +1,4 @@
-package boilerplate.spring.client;
+package boilerplate.spring.feignclient.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

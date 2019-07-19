@@ -1,4 +1,4 @@
-package boilerplate.spring.config;
+package boilerplate.spring.reactivemongodb.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

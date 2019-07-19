@@ -1,6 +1,6 @@
-package boilerplate.spring;
+package boilerplate.spring.feignclient;
 
-import boilerplate.spring.client.ECPayClient;
+import boilerplate.spring.feignclient.client.ECPayClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

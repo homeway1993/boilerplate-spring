@@ -1,6 +1,6 @@
-package boilerplate.spring.repository;
+package boilerplate.spring.reactivemongodb.repository;
 
-import boilerplate.spring.entity.Person;
+import boilerplate.spring.reactivemongodb.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Mono;

@@ -1,4 +1,4 @@
-package boilerplate.spring.entity;
+package boilerplate.spring.reactivemongodb.entity;
 
 import lombok.Data;
 
