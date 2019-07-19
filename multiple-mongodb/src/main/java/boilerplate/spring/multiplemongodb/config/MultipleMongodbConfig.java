@@ -40,6 +40,7 @@ public class MultipleMongodbConfig {
     @Bean(name = PRIMARY_TEMPLATE)
     public MongoTemplate primaryMongoTemplate(@Qualifier("primaryFactory") MongoDbFactory mongoDbFactory) {
         MappingMongoConverter mappingMongoConverter = getMappingMongodbConverter(mongoDbFactory);
+        mappingMongoConverter.afterPropertiesSet();
         return new MongoTemplate(mongoDbFactory, mappingMongoConverter);
     }
 
@@ -53,6 +54,7 @@ public class MultipleMongodbConfig {
     @Bean(name = SECONDARY_TEMPLATE)
     public MongoTemplate secondaryMongoTemplate(@Qualifier("secondaryFactory") MongoDbFactory mongoDbFactory) {
         MappingMongoConverter mappingMongoConverter = getMappingMongodbConverter(mongoDbFactory);
+        mappingMongoConverter.afterPropertiesSet();
         return new MongoTemplate(mongoDbFactory, mappingMongoConverter);
     }
 
@@ -79,7 +81,6 @@ public class MultipleMongodbConfig {
 
         // Don't save field "_class" to mongodb
         mappingConverter.setTypeMapper(new DefaultMongoTypeMapper(null, mongoMappingContext));
-        mappingConverter.afterPropertiesSet();
         return mappingConverter;
     }
 }
