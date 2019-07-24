@@ -24,4 +24,4 @@ feign:
         connectTimeout: 60000
 
 logging.level:
-  boilerplate.spring.client: DEBUG
+  boilerplate.spring.feignclient.client: DEBUG
