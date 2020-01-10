@@ -90,6 +90,9 @@ public class GlobalExceptionController {
         return validationResponse;
     }
 
+    /**
+     * Get an errorMessage by errorCode, if not exists will return errorCode.
+     */
     private String getMessage(String errorCode) {
         try {
             return messageService.getMessage(errorCode);
