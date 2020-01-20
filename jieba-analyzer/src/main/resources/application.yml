@@ -1,0 +1,3 @@
+jieba-analysis:
+  dictionary-path: D:/jieba/dict.txt
+  stopwords-path: D:/jieba/stopwords.txt
