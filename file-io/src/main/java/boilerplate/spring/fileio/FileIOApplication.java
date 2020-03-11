@@ -1,12 +1,12 @@
-package boilerplate.spring.filereader;
+package boilerplate.spring.fileio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FileReaderApplication {
+public class FileIOApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FileReaderApplication.class, args);
+        SpringApplication.run(FileIOApplication.class, args);
     }
 }
