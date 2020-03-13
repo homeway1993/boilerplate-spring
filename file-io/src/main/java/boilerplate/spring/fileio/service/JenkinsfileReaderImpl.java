@@ -58,22 +58,6 @@ public class JenkinsfileReaderImpl implements JenkinsfileReader {
     }
 
     /**
-     * Get Jenkinsfile context according to giving environment.
-     *
-     * @param environment environment name such as "develop" or "release".
-     * @return The Jenkinsfile context.
-     */
-    @Override
-    public List<JenkinsfileContext> getContextList(String environment) {
-        return this.getContextList()
-                .stream()
-                .filter(context -> context.getEnvironment() != null)
-                .filter(context -> context.getEnvironment().equals(environment))
-                .filter(context -> context.getService() != null)
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Get Jenkinsfile context according to giving environment and service.
      * If service is {@code null}, consider it is match all service.
      *

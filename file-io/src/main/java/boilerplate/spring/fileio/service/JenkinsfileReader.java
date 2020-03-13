@@ -9,8 +9,6 @@ public interface JenkinsfileReader {
 
     void printBranch(ApplicationArguments args);
 
-    List<JenkinsfileContext> getContextList(String environment);
-
     List<JenkinsfileContext> getContextList(String environment, String service);
 
     List<JenkinsfileContext> getContextList();
