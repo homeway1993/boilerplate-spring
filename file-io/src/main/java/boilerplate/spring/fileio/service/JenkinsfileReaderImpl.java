@@ -35,12 +35,14 @@ public class JenkinsfileReaderImpl implements JenkinsfileReader {
         // To avoid haven't any arguments.
         if (args.getSourceArgs().length == 0) {
             System.out.println("At least one argument [environment] is required.");
+            return;
         }
 
         // To avoid invalid environment argument.
         final String environment = getEnvironmentByAlias(args.getSourceArgs()[0]);
         if (environment == null) {
-            System.out.println("Wrong environment argument: " + args.getSourceArgs()[0]);
+            System.out.println("Invalid environment argument: " + args.getSourceArgs()[0]);
+            return;
         }
 
         final String service = args.getSourceArgs().length == 1 ? null : args.getSourceArgs()[1];
