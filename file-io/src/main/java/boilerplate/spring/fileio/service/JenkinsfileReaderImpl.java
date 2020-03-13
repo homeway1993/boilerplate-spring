@@ -2,7 +2,6 @@ package boilerplate.spring.fileio.service;
 
 import boilerplate.spring.fileio.pojo.JenkinsfileContext;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -33,43 +32,64 @@ public class JenkinsfileReaderImpl implements JenkinsfileReader {
      */
     @Override
     public void printBranch(ApplicationArguments args) {
-        final String environment = args.getSourceArgs()[0];
-        final String service = args.getSourceArgs()[1];
-        final String branch = this.getBranch(environment, service);
-        System.out.println("Current branch is [" + branch + "]");
+        // To avoid haven't any arguments.
+        if (args.getSourceArgs().length == 0) {
+            System.out.println("At least one argument [environment] is required.");
+        }
+
+        // To avoid invalid environment argument.
+        final String environment = getEnvironmentByAlias(args.getSourceArgs()[0]);
+        if (environment == null) {
+            System.out.println("Wrong environment argument: " + args.getSourceArgs()[0]);
+        }
+
+        final String service = args.getSourceArgs().length == 1 ? null : args.getSourceArgs()[1];
+
+        this.svnUpdate();
+
+        List<JenkinsfileContext> contextList = this.getContextList(environment, service);
+
+        System.out.println();
+        final String format = "%-30s %-30s %-99s %n";
+        System.out.printf(format, "Service", "Branch", "Path");
+        for (JenkinsfileContext context : contextList) {
+            System.out.printf(format, context.getService(), context.getBranch(), context.getPath());
+        }
     }
 
     /**
-     * Get the current branch according to giving environment and service.
-     *
-     * @param environment environment name such as "develop" or "release", allow inaccurate name like "dev".
-     * @param service     microservice name such as "product" or "inventory".
-     * @return current branch
-     */
-    @Override
-    public String getBranch(String environment, String service) {
-        environment = getEnvironmentByAlias(environment);
-        return this.getContext(environment, service)
-                .getBranch();
-    }
-
-    /**
-     * Get Jenkinsfile context according to giving environment and service.
+     * Get Jenkinsfile context according to giving environment.
      *
      * @param environment environment name such as "develop" or "release".
-     * @param service     microservice name such as "product" or "inventory".
      * @return The Jenkinsfile context.
      */
     @Override
-    public JenkinsfileContext getContext(final String environment, final String service) {
+    public List<JenkinsfileContext> getContextList(String environment) {
         return this.getContextList()
                 .stream()
                 .filter(context -> context.getEnvironment() != null)
                 .filter(context -> context.getEnvironment().equals(environment))
                 .filter(context -> context.getService() != null)
-                .filter(context -> context.getService().equals(service))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("Has over 1 context."));
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get Jenkinsfile context according to giving environment and service.
+     * If service is {@code null}, consider it is match all service.
+     *
+     * @param environment environment name such as "develop" or "release", {@code null} is not allowed.
+     * @param service     microservice name such as "product" or "inventory", {@code null} is allowed.
+     * @return The Jenkinsfile context.
+     */
+    @Override
+    public List<JenkinsfileContext> getContextList(@NonNull final String environment, final String service) {
+        return this.getContextList()
+                .stream()
+                .filter(context -> context.getEnvironment() != null)
+                .filter(context -> context.getEnvironment().equals(environment))
+                .filter(context -> context.getService() != null)
+                .filter(context -> service == null || context.getService().contains(service))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -77,32 +97,33 @@ public class JenkinsfileReaderImpl implements JenkinsfileReader {
      */
     @Override
     public List<JenkinsfileContext> getContextList() {
-        this.svnUpdate();
-
         return pathReadService.getAllRegularFilePath(jenkinsfileLocation)
                 .stream()
                 .filter(path -> path.getFileName().toString().equalsIgnoreCase("Jenkinsfile"))
-                .map(this::getContext)
+                .map(this::getContextList)
                 .collect(Collectors.toList());
     }
 
     /**
      * Execute the Subversion update to the latest version and print STDOUT.
+     * Ignored any exception.
      */
-    @SneakyThrows
     private void svnUpdate() {
-        String command = "svn update " + jenkinsfileLocation;
-        System.out.println(command);
-        Process process = Runtime.getRuntime().exec(command);
-        BufferedReader output = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        while (process.isAlive()) {
-            String line = output.readLine();
-            if (line != null) {
-                System.out.println(output.readLine());
+        try {
+            String command = "svn update " + jenkinsfileLocation;
+            System.out.println(command);
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader output = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            while (process.isAlive()) {
+                String line = output.readLine();
+                if (line != null) {
+                    System.out.println(output.readLine());
+                }
             }
+            process.waitFor();
+            System.out.println("exit value: " + process.exitValue());
+        } catch (Exception ignored) {
         }
-        process.waitFor();
-        System.out.println("exit value: " + process.exitValue());
     }
 
     /**
@@ -111,7 +132,7 @@ public class JenkinsfileReaderImpl implements JenkinsfileReader {
      * @param path Jenkinsfile path
      * @return The Jenkinsfile context.
      */
-    private JenkinsfileContext getContext(@NonNull Path path) {
+    private JenkinsfileContext getContextList(@NonNull Path path) {
         JenkinsfileContext result = new JenkinsfileContext();
         result.setPath(path);
 
@@ -153,6 +174,6 @@ public class JenkinsfileReaderImpl implements JenkinsfileReader {
             return "release";
         }
 
-        throw new AssertionError("The wrong environment: " + environment);
+        return null;
     }
 }
