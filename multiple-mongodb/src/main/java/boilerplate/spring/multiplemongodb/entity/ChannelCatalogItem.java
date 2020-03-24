@@ -9,6 +9,7 @@ public class ChannelCatalogItem {
 
     private String id;
     private String code;
+    private List<Category> categories;
     private List<BookingUnit> channelBookingUnits;
 
 

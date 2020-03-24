@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface ChannelCatalogItemRepository extends MongoRepository<ChannelCatalogItem, String> {
+public interface ChannelCatalogItemRepository extends MongoRepository<ChannelCatalogItem, String>, ChannelCatalogItemRepositoryCustom {
 
     @Query("{" +
             " 'channelBookingUnits.onlineStatus': 'online'," +
