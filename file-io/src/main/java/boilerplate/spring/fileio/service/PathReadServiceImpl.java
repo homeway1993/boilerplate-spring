@@ -25,4 +25,16 @@ public class PathReadServiceImpl implements PathReadService {
         }
         return result;
     }
+
+    @Override
+    public List<Path> getDirectories(String path, int maxDepth) {
+        List<Path> result = new ArrayList<>();
+        try (Stream<Path> walk = Files.walk(Paths.get(path), maxDepth)) {
+            result = walk.filter(Files::isDirectory)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
