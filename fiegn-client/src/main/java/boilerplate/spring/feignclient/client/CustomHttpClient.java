@@ -8,7 +8,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClientProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -23,7 +22,6 @@ class CustomHttpClient {
     /**
      * Use Apache HttpClient to supported the PATCH method and setting the proxy.
      */
-    @Bean
     public Client client() {
         // use feign client default configuration
         FeignClientProperties.FeignClientConfiguration defaultConfig = feignClientProperties.getConfig().get("default");

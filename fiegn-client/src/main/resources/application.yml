@@ -4,6 +4,8 @@ proxy:
 
 ec-pay:
   base-url: https://payment-stage.ecpay.com.tw
+auth:
+  base-url: http://localhost:7701/auth
 
 feign:
   client:
