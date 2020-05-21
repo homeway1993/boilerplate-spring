@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+security:
+  oauth2:
+    clients:
+      client-1:
+        clientId: client01
+        clientSecret: oZU28vLVwvs0ODc0xd8LhVAGIyJKwUqV
+        accessTokenValiditySeconds: 300
+        authorizedGrantTypes: client_credentials
+        scope: any
+      client-2:
+        clientId: client02
+        clientSecret: evxn1X2bRiApeEXXQwrnAwiUsaXVtLbr
+        accessTokenValiditySeconds: 300
+        authorizedGrantTypes: client_credentials
+        scope: read
